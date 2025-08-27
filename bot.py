@@ -1,12 +1,13 @@
 from telethon import TelegramClient, events
 from flask import Flask
 from threading import Thread
+import os
 
 # ==============================
-# IDENTIFIANTS TELEGRAM
+# IDENTIFIANTS TELEGRAM VIA VARIABLES D'ENVIRONNEMENT
 # ==============================
-api_id = 22445614          # remplace par ton api_id
-api_hash = '82df915da4838e022052c47339251a5a'  # remplace par ton api_hash
+api_id = int(os.getenv("API_ID"))        # Ajouter API_ID dans Render
+api_hash = os.getenv("API_HASH")         # Ajouter API_HASH dans Render
 
 # Session
 client = TelegramClient('session_test', api_id, api_hash)
@@ -19,7 +20,7 @@ SOURCE_CHANNEL_2 = "https://t.me/learn2tradefxfree"
 TARGET_CHANNEL = -1002849978325  # ton canal privé
 
 # ==============================
-# FLASK POUR UPTIMEROBOT
+# FLASK POUR UPTIME ROBOT
 # ==============================
 app = Flask('')
 
@@ -27,14 +28,14 @@ app = Flask('')
 def home():
     return "Bot actif!"
 
+@app.route('/ping')
+def ping():
+    return "pong"
+
 def run():
     app.run(host='0.0.0.0', port=8080)
 
 Thread(target=run).start()
-
-@app.route('/ping')
-def ping():
-    return "pong"
 
 # ==============================
 # FONCTION FORMATAGE GENERIQUE
